@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Антон &amp; Регина — приглашение для печати (A4, 2 шт.)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Marck+Script&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #f6f1e7;
+    --ink: #4a4f40;
+    --ink-soft: #6b7060;
+    --coral: #df8a6f;
+    --sage: #7c8663;
+    --olive: #5a614b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page { size: A4 portrait; margin: 0; }
+
+  html, body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    color: var(--ink);
+    background: #888; /* screen only, hidden in print */
+  }
+
+  .sheet {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media print {
+    body { background: none; }
+    .sheet { margin: 0; }
+  }
+
+  /* ---------- card = A5 landscape (210 x 148.5mm) ---------- */
+  .card {
+    width: 210mm;
+    height: 148.5mm;
+    padding: 9mm;
+    position: relative;
+  }
+
+  .card__frame {
+    height: 100%;
+    border: 0.4mm solid var(--olive);
+    border-radius: 5mm;
+    position: relative;
+    display: flex;
+  }
+
+  .card__frame::before {
+    content: '';
+    position: absolute;
+    inset: 1.6mm;
+    border: 0.2mm solid color-mix(in srgb, var(--olive) 50%, transparent);
+    border-radius: 3.8mm;
+    pointer-events: none;
+  }
+
+  /* ---------- left: the invitation ---------- */
+  .card__left {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8mm 6mm 8mm 10mm;
+    gap: 3.2mm;
+  }
+
+  .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.34em;
+    font-size: 8.5pt;
+    color: var(--ink-soft);
+  }
+
+  .names {
+    font-family: "Marck Script", cursive;
+    font-weight: 400;
+    color: var(--coral);
+    font-size: 33pt;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .names .amp { font-size: 0.55em; color: var(--sage); }
+
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    color: var(--coral);
+    font-size: 9pt;
+  }
+
+  .rule i { display: block; width: 16mm; height: 0.25mm; background: var(--sage); }
+
+  .invite-words {
+    font-size: 11.5pt;
+    line-height: 1.55;
+    max-width: 92mm;
+  }
+
+  .invite-words .script {
+    font-family: "Marck Script", cursive;
+    color: var(--coral);
+    font-size: 15pt;
+  }
+
+  .date {
+    font-size: 16pt;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .venue {
+    font-size: 11pt;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .venue b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- right: image + QR ---------- */
+  .card__right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4.5mm;
+    padding: 8mm 10mm 8mm 0;
+    position: relative;
+  }
+
+  .card__right::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12mm;
+    bottom: 12mm;
+    width: 0.2mm;
+    background: color-mix(in srgb, var(--sage) 55%, transparent);
+  }
+
+  .couple {
+    width: 44mm;
+    height: auto;
+  }
+
+  .qr-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2mm;
+  }
+
+  .qr {
+    width: 26mm;
+    height: 26mm;
+    border: 0.3mm solid var(--sage);
+    border-radius: 2.5mm;
+    padding: 1.6mm;
+    background: #fff;
+  }
+
+  .qr img { width: 100%; height: 100%; display: block; }
+
+  .qr-caption {
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 7pt;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  .site {
+    font-size: 8.5pt;
+    letter-spacing: 0.06em;
+    color: var(--sage);
+  }
+
+  /* ---------- cut line ---------- */
+  .cut {
+    position: absolute;
+    top: 148.5mm;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-top: 0.2mm dashed color-mix(in srgb, var(--ink-soft) 60%, transparent);
+  }
+
+  .cut::before {
+    content: '✂';
+    position: absolute;
+    left: 5mm;
+    top: -2.6mm;
+    font-size: 10pt;
+    color: var(--ink-soft);
+    background: var(--cream);
+    padding: 0 1mm;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="card">
+    <div class="card__frame">
+      <div class="card__left">
+        <p class="kicker">приглашение на свадьбу</p>
+        <h1 class="names">Антон <span class="amp">&amp;</span> Регина</h1>
+        <div class="rule" aria-hidden="true"><i></i>♥<i></i></div>
+        <p class="invite-words">
+          Приглашаем вас разделить с нами<br />
+          один из самых счастливых дней нашей жизни —<br />
+          <span class="script">день нашей свадьбы!</span>
+        </p>
+        <p class="date">21 августа 2026 года</p>
+        <p class="venue">
+          <b>Ресторан «Renaissance»</b><br />
+          Ташкент, массив Наккашлык, 1А
+        </p>
+      </div>
+      <div class="card__right">
+        <img class="couple" src="assets/img/couple.png" alt="Антон и Регина" />
+        <div class="qr-box">
+          <span class="qr"><img src="assets/img/qr.png" alt="QR-код сайта приглашения" /></span>
+          <p class="qr-caption">детали · карта · музыка</p>
+          <p class="site">deploy-family.netlify.app</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cut" aria-hidden="true"></div>
+
+  <div class="card">
+    <div class="card__frame">
+      <div class="card__left">
+        <p class="kicker">приглашение на свадьбу</p>
+        <h1 class="names">Антон <span class="amp">&amp;</span> Регина</h1>
+        <div class="rule" aria-hidden="true"><i></i>♥<i></i></div>
+        <p class="invite-words">
+          Приглашаем вас разделить с нами<br />
+          один из самых счастливых дней нашей жизни —<br />
+          <span class="script">день нашей свадьбы!</span>
+        </p>
+        <p class="date">21 августа 2026 года</p>
+        <p class="venue">
+          <b>Ресторан «Renaissance»</b><br />
+          Ташкент, массив Наккашлык, 1А
+        </p>
+      </div>
+      <div class="card__right">
+        <img class="couple" src="assets/img/couple.png" alt="Антон и Регина" />
+        <div class="qr-box">
+          <span class="qr"><img src="assets/img/qr.png" alt="QR-код сайта приглашения" /></span>
+          <p class="qr-caption">детали · карта · музыка</p>
+          <p class="site">deploy-family.netlify.app</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
