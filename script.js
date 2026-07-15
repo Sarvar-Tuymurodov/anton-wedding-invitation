@@ -494,45 +494,71 @@ function initCountdown() {
 function initMusic() {
   const audio = document.getElementById('bg-music')
   const btn = document.getElementById('music-toggle')
+  const GESTURES = ['pointerdown', 'keydown', 'touchend']
+  let autoStartArmed = false
 
-  // show the button only if the track actually exists
+  function start() {
+    audio.volume = 0
+    return audio.play().then(() => {
+      gsap.to(audio, { volume: 0.55, duration: 1.2 })
+      btn.classList.add('is-playing')
+      btn.setAttribute('aria-label', 'Выключить музыку')
+      if (!reducedMotion) {
+        gsap.to('.music-toggle__bars i', {
+          height: () => gsap.utils.random(8, 18),
+          duration: 0.3,
+          repeat: -1,
+          yoyo: true,
+          repeatRefresh: true,
+          stagger: 0.12,
+          ease: 'sine.inOut',
+        })
+      }
+    })
+  }
+
+  function stop() {
+    gsap.to(audio, { volume: 0, duration: 0.6, onComplete: () => audio.pause() })
+    btn.classList.remove('is-playing')
+    btn.setAttribute('aria-label', 'Включить музыку')
+    gsap.killTweensOf('.music-toggle__bars i')
+  }
+
+  /* music is on by default: try right away, otherwise wait for the first gesture */
+  function disarmAutoStart() {
+    autoStartArmed = false
+    GESTURES.forEach((t) => window.removeEventListener(t, onFirstGesture))
+  }
+
+  function onFirstGesture(e) {
+    if (!autoStartArmed) return disarmAutoStart()
+    if (e.target.closest && e.target.closest('.music-toggle')) return disarmAutoStart()
+    disarmAutoStart()
+    start().catch(() => {})
+  }
+
+  function attemptAutoplay() {
+    start().catch(() => {
+      autoStartArmed = true
+      GESTURES.forEach((t) => window.addEventListener(t, onFirstGesture))
+    })
+  }
+
+  // show the button (and start the music) only if the track actually exists
   fetch(audio.getAttribute('src'), { method: 'HEAD' })
     .then((res) => {
-      if (res.ok) btn.hidden = false
+      if (!res.ok) return
+      btn.hidden = false
+      attemptAutoplay()
     })
     .catch(() => {})
 
   btn.addEventListener('click', () => {
+    disarmAutoStart() // the user took control — no more auto-starting
     if (audio.paused) {
-      audio.volume = 0
-      audio
-        .play()
-        .then(() => {
-          gsap.to(audio, { volume: 0.55, duration: 1.2 })
-          btn.classList.add('is-playing')
-          btn.setAttribute('aria-label', 'Выключить музыку')
-          if (!reducedMotion) {
-            gsap.to('.music-toggle__bars i', {
-              height: () => gsap.utils.random(8, 18),
-              duration: 0.3,
-              repeat: -1,
-              yoyo: true,
-              repeatRefresh: true,
-              stagger: 0.12,
-              ease: 'sine.inOut',
-            })
-          }
-        })
-        .catch(() => {})
+      start().catch(() => {})
     } else {
-      gsap.to(audio, {
-        volume: 0,
-        duration: 0.6,
-        onComplete: () => audio.pause(),
-      })
-      btn.classList.remove('is-playing')
-      btn.setAttribute('aria-label', 'Включить музыку')
-      gsap.killTweensOf('.music-toggle__bars i')
+      stop()
     }
   })
 }
