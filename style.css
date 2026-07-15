@@ -1,0 +1,699 @@
+/* ============================================================
+   Антон & Регина — 21.08.2026
+   Palette taken from the printed invitation:
+   cream paper, coral accent, sage/olive greenery
+   ============================================================ */
+
+:root {
+  --cream: #f6f1e7;
+  --cream-deep: #efe7d8;
+  --ink: #4a4f40;
+  --ink-soft: #6b7060;
+  --coral: #df8a6f;
+  --coral-soft: #eeb4a0;
+  --sage: #7c8663;
+  --olive: #5a614b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+::selection {
+  background: var(--coral-soft);
+  color: var(--olive);
+}
+
+/* scroll lock while the intro plays */
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* ============ DOVES ============ */
+.doves {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 55;
+  overflow: hidden;
+}
+
+.dove {
+  position: absolute;
+  will-change: transform;
+  filter: drop-shadow(0 6px 10px rgb(90 97 75 / 0.18));
+}
+
+.dove svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.dove__body {
+  fill: #fdfbf6;
+  stroke: var(--sage);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.dove__wing-near {
+  fill: #f8f3e9;
+  stroke: var(--sage);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.dove__wing-far {
+  fill: #e9e1cf;
+  stroke: var(--sage);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+
+.dove__eye {
+  fill: var(--olive);
+}
+
+/* ============ PRELOADER ============ */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--cream);
+}
+
+.preloader__monogram {
+  font-family: "Marck Script", cursive;
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  color: var(--olive);
+  letter-spacing: 0.08em;
+}
+
+.preloader__heart {
+  display: inline-block;
+  color: var(--coral);
+}
+
+.preloader__date {
+  margin-top: 0.6rem;
+  text-align: center;
+  letter-spacing: 0.35em;
+  font-size: clamp(0.85rem, 2.4vw, 1.05rem);
+  color: var(--ink-soft);
+}
+
+/* ============ MUSIC TOGGLE ============ */
+.music-toggle {
+  position: fixed;
+  right: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 60;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  border: 1px solid var(--sage);
+  background: color-mix(in srgb, var(--cream) 88%, white);
+  color: var(--olive);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgb(90 97 75 / 0.18);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.music-toggle[hidden] {
+  display: none;
+}
+
+.music-toggle:hover {
+  transform: scale(1.08);
+  color: var(--coral);
+}
+
+.music-toggle svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.music-toggle__bars {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  padding-bottom: 0.9rem;
+}
+
+.music-toggle__bars i {
+  width: 3px;
+  border-radius: 2px;
+  background: var(--coral);
+  height: 6px;
+}
+
+.music-toggle.is-playing svg {
+  display: none;
+}
+
+.music-toggle.is-playing .music-toggle__bars {
+  display: flex;
+}
+
+/* ============ SECTIONS (shared) ============ */
+.section {
+  position: relative;
+  padding: clamp(4.5rem, 10vw, 8rem) 1.5rem;
+  text-align: center;
+}
+
+.section--tinted {
+  background: var(--cream-deep);
+}
+
+.section__inner {
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.section__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.38em;
+  font-size: clamp(0.8rem, 2.2vw, 1rem);
+  color: var(--ink-soft);
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: clamp(2rem, 5vw, 3rem);
+  color: var(--coral);
+  font-size: 1rem;
+}
+
+.ornament i {
+  display: block;
+  width: clamp(3rem, 10vw, 5.5rem);
+  height: 1px;
+  background: var(--sage);
+  opacity: 0.6;
+}
+
+/* ============ HERO ============ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 4rem) 1.25rem 5.5rem;
+  overflow: hidden;
+}
+
+.hero__arch {
+  position: relative;
+  width: min(92vw, 26rem);
+  aspect-ratio: 400 / 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__arch-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--olive);
+  overflow: visible;
+}
+
+.hero__arch-path--inner {
+  opacity: 0.45;
+}
+
+.hero__inner {
+  position: relative;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.hero__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: clamp(0.62rem, 1.8vw, 0.75rem);
+  color: var(--ink-soft);
+  margin-bottom: clamp(1.4rem, 4vw, 2rem);
+}
+
+.hero__names {
+  font-family: "Marck Script", cursive;
+  font-weight: 400;
+  color: var(--coral);
+  font-size: clamp(2.6rem, 9vw, 4.2rem);
+  line-height: 1.15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.hero__name {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero__name .char {
+  display: inline-block;
+}
+
+.hero__amp {
+  font-size: 0.55em;
+  color: var(--sage);
+}
+
+.hero__rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  margin: clamp(1.2rem, 3.5vw, 1.8rem) 0;
+}
+
+.hero__rule i {
+  display: block;
+  width: clamp(2.5rem, 9vw, 4rem);
+  height: 1px;
+  background: var(--sage);
+}
+
+.hero__heart {
+  color: var(--coral);
+  font-size: 0.95rem;
+}
+
+.hero__date {
+  font-size: clamp(1.25rem, 4vw, 1.7rem);
+  letter-spacing: 0.14em;
+  font-weight: 500;
+}
+
+.hero__city {
+  margin-top: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  color: var(--ink-soft);
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 1.6rem;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--ink-soft);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+}
+
+.hero__scroll-line {
+  display: block;
+  width: 1px;
+  height: 2.4rem;
+  background: var(--sage);
+  transform-origin: top;
+}
+
+/* floating leaves */
+.hero__leaves {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.leaf {
+  position: absolute;
+  color: var(--sage);
+  opacity: 0.5;
+  will-change: transform;
+}
+
+.leaf svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.leaf--coral {
+  color: var(--coral-soft);
+}
+
+/* ============ INVITE ============ */
+.invite__dear {
+  font-family: "Marck Script", cursive;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  color: var(--sage);
+  margin-bottom: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+.invite__text {
+  font-size: clamp(1.15rem, 3.2vw, 1.5rem);
+  line-height: 1.7;
+}
+
+.invite__script {
+  font-family: "Marck Script", cursive;
+  font-size: clamp(1.9rem, 6vw, 2.8rem);
+  color: var(--coral);
+  margin-top: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* ============ DRIVE (car) ============ */
+.drive {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 4rem) 0 0;
+}
+
+.drive__car {
+  display: block;
+  width: clamp(15rem, 42vw, 24rem);
+  height: auto;
+  will-change: transform;
+  filter: drop-shadow(0 14px 18px rgb(90 97 75 / 0.22));
+}
+
+.drive__road {
+  height: 2px;
+  margin: -0.4rem clamp(1rem, 6vw, 4rem) 0;
+  background-image: linear-gradient(90deg, var(--sage) 0 55%, transparent 55% 100%);
+  background-size: 26px 2px;
+  opacity: 0.55;
+}
+
+.drive__hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.drive__hearts span {
+  position: absolute;
+  bottom: 30%;
+  left: 12%;
+  color: var(--coral);
+  font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+  opacity: 0;
+}
+
+.drive__hearts span:nth-child(2) { left: 30%; font-size: 0.85em; }
+.drive__hearts span:nth-child(3) { left: 48%; }
+.drive__hearts span:nth-child(4) { left: 66%; font-size: 0.8em; }
+.drive__hearts span:nth-child(5) { left: 82%; }
+
+/* ============ DATE + CALENDAR ============ */
+.date__big {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.8rem, 3vw, 1.6rem);
+}
+
+.date__num {
+  font-size: clamp(5.5rem, 18vw, 9rem);
+  line-height: 1;
+  color: var(--coral);
+  font-weight: 400;
+  display: inline-block;
+}
+
+.sprig {
+  width: clamp(4.5rem, 14vw, 7.5rem);
+  color: var(--sage);
+  overflow: visible;
+}
+
+.date__month {
+  font-family: "Marck Script", cursive;
+  font-size: clamp(2rem, 7vw, 3rem);
+  color: var(--coral);
+  margin-top: 0.4rem;
+}
+
+.date__year {
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  letter-spacing: 0.12em;
+  margin-top: 0.3rem;
+}
+
+.calendar {
+  margin: clamp(2.5rem, 6vw, 4rem) auto 0;
+  max-width: 22rem;
+  border: 1px solid color-mix(in srgb, var(--sage) 45%, transparent);
+  border-radius: 1.25rem;
+  padding: clamp(1.2rem, 4vw, 1.8rem);
+  background: color-mix(in srgb, white 35%, transparent);
+}
+
+.calendar__title {
+  font-size: 1.15rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: 1rem;
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.35rem 0;
+  font-size: clamp(0.85rem, 2.4vw, 1rem);
+}
+
+.calendar__grid--head {
+  color: var(--sage);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+}
+
+.calendar__grid span {
+  padding: 0.28rem 0;
+}
+
+.calendar__day--wedding {
+  position: relative;
+  color: var(--coral);
+  font-weight: 600;
+}
+
+.calendar__circle {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 2.6em;
+  height: 2.6em;
+  translate: -50% -50%;
+  color: var(--coral);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.calendar__heart {
+  position: absolute;
+  top: -1.15em;
+  left: 50%;
+  translate: -50% 0;
+  font-size: 0.8em;
+  color: var(--coral);
+}
+
+/* ============ COUNTDOWN ============ */
+.countdown__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.6rem, 2.5vw, 1.4rem);
+  max-width: 34rem;
+  margin: 0 auto;
+}
+
+.countdown__cell {
+  background: color-mix(in srgb, white 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sage) 40%, transparent);
+  border-radius: 1rem;
+  padding: clamp(0.9rem, 3vw, 1.5rem) 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.countdown__value {
+  font-size: clamp(1.8rem, 6.5vw, 3rem);
+  line-height: 1;
+  color: var(--coral);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown__label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
+  color: var(--ink-soft);
+}
+
+.countdown__done {
+  margin-top: 1.5rem;
+  font-family: "Marck Script", cursive;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  color: var(--coral);
+}
+
+/* ============ VENUE ============ */
+.venue__name {
+  font-weight: 500;
+  font-size: clamp(1.9rem, 6vw, 2.8rem);
+  color: var(--olive);
+}
+
+.venue__address {
+  margin-top: 0.6rem;
+  font-size: clamp(1.05rem, 3vw, 1.3rem);
+  color: var(--ink-soft);
+}
+
+.venue__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: clamp(1.6rem, 4vw, 2.2rem);
+  padding: 0.85rem 1.8rem;
+  border-radius: 3rem;
+  border: 1px solid var(--coral);
+  color: var(--coral);
+  text-decoration: none;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.venue__btn:hover {
+  background: var(--coral);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+.venue__btn svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.venue__map {
+  margin-top: clamp(2rem, 5vw, 3rem);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--sage) 45%, transparent);
+  box-shadow: 0 18px 40px rgb(90 97 75 / 0.15);
+}
+
+.venue__map iframe {
+  display: block;
+  width: 100%;
+  height: clamp(18rem, 50vw, 24rem);
+  border: 0;
+}
+
+/* ============ FINALE ============ */
+.finale {
+  overflow: hidden;
+}
+
+.finale__text {
+  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
+  line-height: 1.7;
+}
+
+.finale__signature {
+  font-family: "Marck Script", cursive;
+  font-size: clamp(2.4rem, 8.5vw, 4rem);
+  color: var(--coral);
+  margin-top: clamp(1.5rem, 4vw, 2.2rem);
+}
+
+.finale__signature .char {
+  display: inline-block;
+  white-space: pre;
+}
+
+.finale__sprig {
+  width: clamp(6rem, 18vw, 8.5rem);
+  color: var(--sage);
+  margin-top: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+.finale__hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.finale__hearts .heart {
+  position: absolute;
+  color: var(--coral-soft);
+  will-change: transform;
+}
+
+/* ============ FOOTER ============ */
+.footer {
+  padding: 1.8rem 1rem 2.4rem;
+  text-align: center;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  background: var(--cream-deep);
+}
+
+/* ============ REDUCED MOTION ============ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .preloader {
+    display: none;
+  }
+}
