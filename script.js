@@ -298,8 +298,10 @@ function initAnimations() {
         )
         .to(dove, { autoAlpha: 0, duration: 0.8 }, dur - 0.8)
 
-      /* click → feathers puff, dove becomes a drumstick and tumbles down */
-      dove.addEventListener('click', () => {
+      /* tap/click → feathers puff, dove becomes a drumstick and tumbles down.
+         pointerdown (not click): doves move fast, so by the time a click is
+         synthesized on touch devices the dove is out from under the finger */
+      const catchDove = () => {
         if (dove.dataset.caught) return
         dove.dataset.caught = '1'
         flight.kill()
@@ -326,7 +328,9 @@ function initAnimations() {
             0.1
           )
           .to(dove, { autoAlpha: 0, duration: 0.2 }, '>-0.2')
-      })
+      }
+      dove.addEventListener('pointerdown', catchDove)
+      dove.addEventListener('click', catchDove) // fallback (keyboard/older browsers)
     }
   }
 

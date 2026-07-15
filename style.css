@@ -61,6 +61,14 @@ html.is-locked body {
   filter: drop-shadow(0 6px 10px rgb(90 97 75 / 0.18));
   pointer-events: auto; /* doves are clickable — easter egg */
   cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* generous touch target around the fast-moving bird */
+.dove::after {
+  content: '';
+  position: absolute;
+  inset: -16px;
 }
 
 .drumstick__meat {
