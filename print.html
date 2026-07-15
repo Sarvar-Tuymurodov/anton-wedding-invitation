@@ -72,13 +72,13 @@
 
   /* ---------- left: the invitation ---------- */
   .card__left {
-    flex: 1.5;
+    flex: 1 1 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 8mm 6mm 8mm 10mm;
+    padding: 8mm 8mm;
     gap: 3.2mm;
   }
 
@@ -138,13 +138,13 @@
 
   /* ---------- right: image + QR ---------- */
   .card__right {
-    flex: 1;
+    flex: 1 1 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4.5mm;
-    padding: 8mm 10mm 8mm 0;
+    padding: 8mm 8mm;
     position: relative;
   }
 
@@ -152,14 +152,29 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 12mm;
-    bottom: 12mm;
-    width: 0.2mm;
-    background: color-mix(in srgb, var(--sage) 55%, transparent);
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-left: 0.2mm dashed color-mix(in srgb, var(--ink-soft) 40%, transparent);
+  }
+
+  .sprig { width: 20mm; color: var(--sage); }
+
+  .cover-script {
+    font-family: "Marck Script", cursive;
+    color: var(--coral);
+    font-size: 19pt;
+  }
+
+  .cover-date {
+    font-size: 13pt;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    color: var(--ink);
   }
 
   .couple {
-    width: 44mm;
+    width: 46mm;
     height: auto;
   }
 
@@ -171,8 +186,8 @@
   }
 
   .qr {
-    width: 26mm;
-    height: 26mm;
+    width: 22mm;
+    height: 22mm;
     border: 0.3mm solid var(--sage);
     border-radius: 2.5mm;
     padding: 1.6mm;
@@ -238,7 +253,17 @@
         </p>
       </div>
       <div class="card__right">
+        <svg class="sprig" viewBox="0 0 120 40" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M10 20 Q60 12 110 20" />
+            <ellipse fill="currentColor" stroke="none" opacity="0.85" cx="35" cy="15" rx="8" ry="3.2" transform="rotate(-12 35 15)" />
+            <ellipse fill="currentColor" stroke="none" opacity="0.85" cx="60" cy="12" rx="8" ry="3.2" />
+            <ellipse fill="currentColor" stroke="none" opacity="0.85" cx="85" cy="15" rx="8" ry="3.2" transform="rotate(12 85 15)" />
+          </g>
+        </svg>
         <img class="couple" src="assets/img/couple.png" alt="Антон и Регина" />
+        <p class="cover-script">Мы женимся!</p>
+        <p class="cover-date">21 . 08 . 2026</p>
         <div class="qr-box">
           <span class="qr"><img src="assets/img/qr.png" alt="QR-код сайта приглашения" /></span>
           <p class="qr-caption">детали · карта</p>
@@ -267,7 +292,17 @@
         </p>
       </div>
       <div class="card__right">
+        <svg class="sprig" viewBox="0 0 120 40" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M10 20 Q60 12 110 20" />
+            <ellipse fill="currentColor" stroke="none" opacity="0.85" cx="35" cy="15" rx="8" ry="3.2" transform="rotate(-12 35 15)" />
+            <ellipse fill="currentColor" stroke="none" opacity="0.85" cx="60" cy="12" rx="8" ry="3.2" />
+            <ellipse fill="currentColor" stroke="none" opacity="0.85" cx="85" cy="15" rx="8" ry="3.2" transform="rotate(12 85 15)" />
+          </g>
+        </svg>
         <img class="couple" src="assets/img/couple.png" alt="Антон и Регина" />
+        <p class="cover-script">Мы женимся!</p>
+        <p class="cover-date">21 . 08 . 2026</p>
         <div class="qr-box">
           <span class="qr"><img src="assets/img/qr.png" alt="QR-код сайта приглашения" /></span>
           <p class="qr-caption">детали · карта</p>
