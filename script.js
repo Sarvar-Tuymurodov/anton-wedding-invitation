@@ -166,6 +166,41 @@ function initAnimations() {
       </g>
     </svg>`
 
+  /* the easter egg: a clicked dove turns into a chicken drumstick */
+  const DRUMSTICK_SVG = `
+    <svg viewBox="0 0 100 100">
+      <line class="drumstick__bone" x1="60" y1="60" x2="80" y2="80" stroke="#fbf7ee" stroke-width="9" stroke-linecap="round" />
+      <circle class="drumstick__bone" cx="86" cy="75" r="7" />
+      <circle class="drumstick__bone" cx="75" cy="86" r="7" />
+      <path class="drumstick__meat" d="M26 16 Q54 2 72 20 Q90 38 70 58 Q54 72 38 64 Q16 54 20 32 Q22 22 26 16Z" />
+      <path class="drumstick__shine" d="M34 22 Q46 13 58 18" />
+    </svg>`
+
+  const FEATHER_SVG = `
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2 C17 6 18 12 12 22 C6 12 7 6 12 2Z" />
+    </svg>`
+
+  function puffFeathers(x, y) {
+    for (let i = 0; i < 6; i++) {
+      const f = document.createElement('span')
+      f.className = 'feather'
+      f.innerHTML = FEATHER_SVG
+      const s = gsap.utils.random(8, 16)
+      gsap.set(f, { width: s, height: s, left: x, top: y, rotate: gsap.utils.random(0, 360) })
+      dovesLayer.appendChild(f)
+      gsap.to(f, {
+        x: gsap.utils.random(-55, 55),
+        y: gsap.utils.random(20, 90),
+        rotation: '+=' + gsap.utils.random(-160, 160),
+        autoAlpha: 0,
+        duration: gsap.utils.random(0.9, 1.6),
+        ease: 'power1.out',
+        onComplete: () => f.remove(),
+      })
+    }
+  }
+
   function releaseDoves(count) {
     const vh = window.innerHeight
     for (let i = 0; i < count; i++) {
@@ -208,7 +243,7 @@ function initAnimations() {
       const amp = gsap.utils.random(24, 60)
       const sways = gsap.utils.random(1.6, 2.6)
       const state = { p: 0 }
-      gsap
+      const flight = gsap
         .timeline({
           delay: gsap.utils.random(0, 2.2),
           onComplete: () => {
@@ -236,6 +271,36 @@ function initAnimations() {
           0
         )
         .to(dove, { autoAlpha: 0, duration: 0.8 }, dur - 0.8)
+
+      /* click → feathers puff, dove becomes a drumstick and tumbles down */
+      dove.addEventListener('click', () => {
+        if (dove.dataset.caught) return
+        dove.dataset.caught = '1'
+        flight.kill()
+        flap.kill()
+        bob.kill()
+
+        const rect = dove.getBoundingClientRect()
+        puffFeathers(rect.left + rect.width / 2, rect.top + rect.height / 2)
+
+        dove.innerHTML = DRUMSTICK_SVG
+        gsap.set(dove, { autoAlpha: 1 })
+        gsap
+          .timeline({ onComplete: () => dove.remove() })
+          .to(dove, { scale: 1.2, duration: 0.12, ease: 'power2.out' }, 0)
+          .to(dove, { scale: 1, duration: 0.18 }, 0.12)
+          .to(
+            dove,
+            {
+              y: '+=' + (window.innerHeight + 200),
+              rotation: '+=' + gsap.utils.random(200, 480) * (Math.random() < 0.5 ? -1 : 1),
+              duration: gsap.utils.random(1.1, 1.5),
+              ease: 'power1.in',
+            },
+            0.1
+          )
+          .to(dove, { autoAlpha: 0, duration: 0.2 }, '>-0.2')
+      })
     }
   }
 
