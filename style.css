@@ -66,14 +66,14 @@ html.is-locked body {
 .drumstick__meat {
   fill: #d9975f;
   stroke: #a96a3b;
-  stroke-width: 2;
+  stroke-width: 2.5;
   stroke-linejoin: round;
 }
 
 .drumstick__shine {
   fill: none;
   stroke: #ecc39a;
-  stroke-width: 3;
+  stroke-width: 4;
   stroke-linecap: round;
 }
 
@@ -81,6 +81,18 @@ html.is-locked body {
   fill: #fbf7ee;
   stroke: #b9ae93;
   stroke-width: 2;
+}
+
+.drumstick__bone-line {
+  stroke: #fbf7ee;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.drumstick__bone-line-outline {
+  stroke: #b9ae93;
+  stroke-width: 14;
+  stroke-linecap: round;
 }
 
 .feather {
@@ -98,6 +110,14 @@ html.is-locked body {
   fill: #fdfbf6;
   stroke: var(--sage);
   stroke-width: 1.2;
+}
+
+.fluff {
+  position: absolute;
+  border-radius: 50%;
+  background: #fdfbf6;
+  border: 1px solid color-mix(in srgb, var(--sage) 55%, transparent);
+  will-change: transform;
 }
 
 .dove svg {

@@ -169,11 +169,12 @@ function initAnimations() {
   /* the easter egg: a clicked dove turns into a chicken drumstick */
   const DRUMSTICK_SVG = `
     <svg viewBox="0 0 100 100">
-      <line class="drumstick__bone" x1="60" y1="60" x2="80" y2="80" stroke="#fbf7ee" stroke-width="9" stroke-linecap="round" />
-      <circle class="drumstick__bone" cx="86" cy="75" r="7" />
-      <circle class="drumstick__bone" cx="75" cy="86" r="7" />
-      <path class="drumstick__meat" d="M26 16 Q54 2 72 20 Q90 38 70 58 Q54 72 38 64 Q16 54 20 32 Q22 22 26 16Z" />
-      <path class="drumstick__shine" d="M34 22 Q46 13 58 18" />
+      <line class="drumstick__bone-line-outline" x1="60" y1="60" x2="74" y2="74" />
+      <circle class="drumstick__bone" cx="81" cy="68" r="7.5" />
+      <circle class="drumstick__bone" cx="68" cy="81" r="7.5" />
+      <line class="drumstick__bone-line" x1="60" y1="60" x2="74" y2="74" />
+      <path class="drumstick__meat" d="M62 56 Q72 46 66 32 Q58 12 36 8 Q14 6 8 26 Q3 46 20 58 Q38 70 54 63 Q60 60 62 56Z" />
+      <path class="drumstick__shine" d="M20 22 Q30 12 44 13" />
     </svg>`
 
   const FEATHER_SVG = `
@@ -182,22 +183,47 @@ function initAnimations() {
     </svg>`
 
   function puffFeathers(x, y) {
-    for (let i = 0; i < 6; i++) {
+    /* radial burst of feathers... */
+    for (let i = 0; i < 12; i++) {
       const f = document.createElement('span')
       f.className = 'feather'
       f.innerHTML = FEATHER_SVG
-      const s = gsap.utils.random(8, 16)
-      gsap.set(f, { width: s, height: s, left: x, top: y, rotate: gsap.utils.random(0, 360) })
+      const s = gsap.utils.random(9, 20)
+      const angle = gsap.utils.random(0, Math.PI * 2)
+      const dist = gsap.utils.random(40, 130)
+      gsap.set(f, { width: s, height: s, left: x, top: y, rotate: gsap.utils.random(0, 360), scale: 0.4 })
       dovesLayer.appendChild(f)
-      gsap.to(f, {
-        x: gsap.utils.random(-55, 55),
-        y: gsap.utils.random(20, 90),
-        rotation: '+=' + gsap.utils.random(-160, 160),
-        autoAlpha: 0,
-        duration: gsap.utils.random(0.9, 1.6),
-        ease: 'power1.out',
-        onComplete: () => f.remove(),
-      })
+      gsap
+        .timeline({ onComplete: () => f.remove() })
+        .to(f, { scale: 1, duration: 0.15, ease: 'power2.out' }, 0)
+        .to(
+          f,
+          {
+            x: Math.cos(angle) * dist,
+            y: Math.sin(angle) * dist * 0.8 + 45, // slight gravity
+            rotation: '+=' + gsap.utils.random(-260, 260),
+            duration: gsap.utils.random(1, 1.7),
+            ease: 'power2.out',
+          },
+          0
+        )
+        .to(f, { autoAlpha: 0, duration: 0.5 }, '>-0.5')
+    }
+
+    /* ...plus a few puffs of down */
+    for (let i = 0; i < 6; i++) {
+      const p = document.createElement('span')
+      p.className = 'fluff'
+      const s = gsap.utils.random(5, 11)
+      const angle = gsap.utils.random(0, Math.PI * 2)
+      const dist = gsap.utils.random(20, 70)
+      gsap.set(p, { width: s, height: s, left: x, top: y, scale: 0.3 })
+      dovesLayer.appendChild(p)
+      gsap
+        .timeline({ onComplete: () => p.remove() })
+        .to(p, { scale: 1, duration: 0.12, ease: 'power2.out' }, 0)
+        .to(p, { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist, duration: gsap.utils.random(0.5, 0.9), ease: 'power2.out' }, 0)
+        .to(p, { autoAlpha: 0, duration: 0.35 }, '>-0.35')
     }
   }
 
@@ -284,7 +310,7 @@ function initAnimations() {
         puffFeathers(rect.left + rect.width / 2, rect.top + rect.height / 2)
 
         dove.innerHTML = DRUMSTICK_SVG
-        gsap.set(dove, { autoAlpha: 1 })
+        gsap.set(dove, { autoAlpha: 1, width: size * 0.6, height: size * 0.6 })
         gsap
           .timeline({ onComplete: () => dove.remove() })
           .to(dove, { scale: 1.2, duration: 0.12, ease: 'power2.out' }, 0)
