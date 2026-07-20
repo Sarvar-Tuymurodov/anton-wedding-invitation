@@ -521,7 +521,7 @@ function initAnimations() {
    ============================================================ */
 
 function initCountdown() {
-  const target = new Date('2026-08-21T00:00:00+05:00').getTime()
+  const target = new Date('2026-08-21T18:00:00+05:00').getTime()
   const els = {
     days: document.getElementById('cd-days'),
     hours: document.getElementById('cd-hours'),
